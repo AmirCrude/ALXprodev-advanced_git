@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "Running post-merge hook..."
+
+# Get current branch
+current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# Check if merge was into main branch
+if [ "$current_branch" = "main" ]; then
+  echo "✅ Merge completed into main branch"
+  echo "Timestamp: $(date)" >> merge_log.txt
+  echo "Branch: $current_branch" >> merge_log.txt
+  echo "Commit: $(git log -1 --pretty=format:'%H')" >> merge_log.txt
+  echo "Message: $(git log -1 --pretty=format:'%s')" >> merge_log.txt
+  echo "---" >> merge_log.txt
+  echo "Merge logged to merge_log.txt"
+fi

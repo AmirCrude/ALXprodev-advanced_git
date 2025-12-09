@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "Running pre-commit hook: Checking for README files in each directory..."
+
+# Get list of all directories in the repository (excluding .git)
+directories=$(find . -type d -not -path "./.git/*" -not -name ".git" | grep -v "^\.$")
+
+for dir in $directories; do
+  # Skip root directory
+  if [ "$dir" != "." ]; then
+    if [ ! -f "$dir/README.md" ]; then
+      echo "❌ ERROR: Directory '$dir' does not contain a README.md file!"
+      echo "   Please add a README.md file to '$dir' before committing."
+      exit 1
+    else
+      echo "✓ Directory '$dir' has README.md"
+    fi
+  fi
+done
+
+echo "✅ All directories have README.md files. Pre-commit check passed!"
